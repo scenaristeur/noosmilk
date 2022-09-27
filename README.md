@@ -22,3 +22,14 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# publish on gh-pages
+- https://dfaveris.medium.com/publier-une-application-vuejs-sur-github-ee7662c94667
+```
+npm run build
+git add dist -f && git commit -m "Initial dist subtree commit"
+
+
+
+
+```

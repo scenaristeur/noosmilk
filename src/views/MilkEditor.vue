@@ -25,11 +25,12 @@ export default {
   name: 'MilkEditor',
   data(){
     return{
-      default: '#default'
+      default: '#default',
+      rootDoc: null
     }
   },
   async mounted() {
-    const editor = await Editor.make()
+    this.editor = await Editor.make()
     .config((ctx) => {
       ctx.set(rootCtx, this.$refs.editor);
       ctx.set(defaultValueCtx, this.default);
@@ -45,30 +46,68 @@ export default {
     .use(collaborative)
     .create();
 
-    const doc = new Doc();
-    const wsProvider = new WebsocketProvider(
-      // "ws://localhost:1234",
-      "wss://flame-long-base.glitch.me/",       // '<YOUR_WS_HOST>',
-      // "wss://yjs-websocket--1234.local-corp.webcontainer.io",
-      // 'wss://demos.yjs.dev',
-      'milkdown', // roomId
-      doc // Doc
-    );
-
-    console.log (editor)
-
-    editor.action((ctx) => {
-      const collabService = ctx.get(collabServiceCtx);
-
-      collabService
-      // bind doc and awareness
-      .bindDoc(doc)
-      .setAwareness(wsProvider.awareness)
-      // connect yjs with milkdown
-      .connect();
-    });
+    this.rootDoc = new Doc();
 
 
+
+  },
+  methods:{
+    connect(){
+      this.roomDoc = this.rootDoc.getMap().get(this.roomId)
+      console.log (this.roomDoc)
+      if (this.roomDoc == undefined){
+        // Client One
+
+        this.ymap = this.rootDoc.getMap()
+
+        this.roomDoc = new Doc()
+        //subDoc.getText().insert(0, 'some initial content')
+        this.ymap.set(this.roomId, this.roomDoc)
+      }
+
+
+
+      const wsProvider = new WebsocketProvider(
+        // "ws://localhost:1234",
+        "wss://flame-long-base.glitch.me/",       // '<YOUR_WS_HOST>',
+        // "wss://yjs-websocket--1234.local-corp.webcontainer.io",
+        // 'wss://demos.yjs.dev',
+        this.roomId, //'milkdown', // roomId
+        this.roomDoc // Doc
+      );
+
+
+      console.log(this.rootDoc, this.roomDoc)
+
+
+
+
+
+      // console.log (editor)
+
+      this.editor.action((ctx) => {
+        const collabService = ctx.get(collabServiceCtx);
+
+        collabService
+        .disconnect()
+        // bind doc and awareness
+        .bindDoc(this.roomDoc)
+        .setAwareness(wsProvider.awareness)
+        // connect yjs with milkdown
+        .connect();
+      });
+    }
+  },
+
+
+
+  watch:{
+    roomId(){
+      console.log(this.roomId)
+      this.connect()
+
+
+    }
   },
 
   computed: {
