@@ -1,18 +1,21 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <RoomManager />
+    <MilkEditor />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
-  }
+    RoomManager: defineAsyncComponent(() => import('@/views/RoomManager.vue')),
+    MilkEditor: defineAsyncComponent(() => import('@/views/MilkEditor.vue'))
+    //
+    // 'RoomManager': ()=>import('@/views/RoomManager'),
+    // 'MilkEditor': ()=>import('@/views/MilkEditor'),
+  },
 }
 </script>
