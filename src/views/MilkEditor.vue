@@ -25,7 +25,7 @@ import { Doc } from 'yjs';
 // import {Awareness} from 'y-protocols/awareness'
 // import { WebrtcProvider } from 'y-webrtc'
 import { WebsocketProvider } from 'y-websocket'
-import { IndexeddbPersistence } from 'y-indexeddb'
+// import { IndexeddbPersistence } from 'y-indexeddb'
 
 // import { CollabManager } from '@/services/collabManager';
 
@@ -90,14 +90,14 @@ export default {
 
     this.rootDoc = new Doc();
 
-    let indexeddbProvider = new IndexeddbPersistence('noosphere-demo3', this.rootDoc)
-    //
-    indexeddbProvider.on('synced', (data) => {
-      this.ready = true
-      console.log(this.ready)
-        console.log('content from the database is loaded', data)
-    })
-    console.log(this.ready)
+    // let indexeddbProvider = new IndexeddbPersistence('noosphere-demo3', this.rootDoc)
+    // //
+    // indexeddbProvider.on('synced', (data) => {
+    //   this.ready = true
+    //   console.log(this.ready)
+    //     console.log('content from the database is loaded', data)
+    // })
+    // console.log(this.ready)
 
 
   },

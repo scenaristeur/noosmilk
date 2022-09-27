@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunknoosmilk"]=self["webpackChunknoosmilk"]||[]).push([[360],{3360:function(n,a,e){e.r(a),e.d(a,{default:function(){return i}});var o=e(3396);const r={class:"nav-bar"};function s(n,a,e,s,t,c){const u=(0,o.up)("RoomManager");return(0,o.wg)(),(0,o.iD)("div",r,[(0,o.Wm)(u)])}var t={name:"NavBar",components:{RoomManager:(0,o.RC)((()=>e.e(885).then(e.bind(e,2885))))}},c=e(89);const u=(0,c.Z)(t,[["render",s],["__scopeId","data-v-2460f2a4"]]);var i=u}}]);
-//# sourceMappingURL=360.b158bfc2.js.map
