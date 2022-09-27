@@ -1,7 +1,8 @@
 <template>
   <div class="">
     roomId : {{roomId}}
-    <div ref="editor"></div>
+    <!-- {{ ready}} -->
+    <div ref="editor" v-if="roomId.length > 0"></div>
   </div>
 </template>
 
@@ -15,9 +16,16 @@ import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
+import { history } from '@milkdown/plugin-history';
+import { emoji } from '@milkdown/plugin-emoji';
+import { diagram } from '@milkdown/plugin-diagram';
 import { gfm } from '@milkdown/preset-gfm';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { Doc } from 'yjs';
+// import {Awareness} from 'y-protocols/awareness'
+// import { WebrtcProvider } from 'y-webrtc'
 import { WebsocketProvider } from 'y-websocket'
+import { IndexeddbPersistence } from 'y-indexeddb'
 
 // import { CollabManager } from '@/services/collabManager';
 
@@ -25,8 +33,9 @@ export default {
   name: 'MilkEditor',
   data(){
     return{
-      default: '#default',
-      rootDoc: null
+      default: "# Welcome to the Noosphere \n1. Open a room\n 2. click to edit",
+      rootDoc: null,
+      // ready: false
     }
   },
   async mounted() {
@@ -34,6 +43,35 @@ export default {
     .config((ctx) => {
       ctx.set(rootCtx, this.$refs.editor);
       ctx.set(defaultValueCtx, this.default);
+      ctx.get(listenerCtx)
+      .beforeMount((ctx) => {
+        // before the editor mounts
+        console.log('beforeMount', ctx)
+      })
+      .mounted((ctx) => {
+        // after the editor mounts
+        console.log('mounted', ctx)
+      })
+      .updated((ctx, doc, prevDoc) => {
+        console.log('updated', ctx, doc, prevDoc)
+        // when editor state updates
+      })
+      .markdownUpdated((ctx, markdown, prevMarkdown) => {
+        // when markdown updates
+        console.log('markdown updated', ctx,markdown, prevMarkdown)
+      })
+      .blur((ctx) => {
+        // when editor loses focus
+        console.log('blur', ctx)
+      })
+      .focus((ctx) => {
+        // when focus editor
+        console.log('focus', ctx)
+      })
+      .destroy((ctx) => {
+        // when editor is being destroyed
+        console.log('destroy', ctx)
+      });
     })
     .use(nord)
     // .use(commonmark)
@@ -44,26 +82,43 @@ export default {
     .use(clipboard)
     .use(gfm)
     .use(collaborative)
+    .use(history)
+    .use(emoji)
+    .use(diagram)
+    .use(listener)
     .create();
 
     this.rootDoc = new Doc();
 
+    let indexeddbProvider = new IndexeddbPersistence('noosphere-demo3', this.rootDoc)
+    //
+    indexeddbProvider.on('synced', (data) => {
+      this.ready = true
+      console.log(this.ready)
+        console.log('content from the database is loaded', data)
+    })
+    console.log(this.ready)
 
 
   },
   methods:{
     connect(){
-      this.roomDoc = this.rootDoc.getMap().get(this.roomId)
+      this.ymap = this.rootDoc.getMap()
+      console.log('ymap', this.ymap)
+      this.roomDoc = this.ymap.get(this.roomId)
       console.log (this.roomDoc)
       if (this.roomDoc == undefined){
         // Client One
 
-        this.ymap = this.rootDoc.getMap()
+
 
         this.roomDoc = new Doc()
         //subDoc.getText().insert(0, 'some initial content')
         this.ymap.set(this.roomId, this.roomDoc)
       }
+      // else{
+      //
+      // }
 
 
 
@@ -121,8 +176,13 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-. {
-
+<style lang="css">
+.milkdown-menu {
+  position:fixed;
+  top:60px;
+  right:0;
+  left:0;
+  /* bottom: 0px; */
+  z-index:1040
 }
 </style>

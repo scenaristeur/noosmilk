@@ -1,10 +1,29 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <!-- <nav>
+  <router-link to="/">Home</router-link> |
+  <router-link to="/about">About</router-link>
+</nav> -->
+<div>
+  <NavBar />
+  <div style="margin-top: 60px;">
+    <router-view/>
+  </div>
+</div>
 </template>
+
+<script>
+import { defineAsyncComponent } from 'vue'
+
+export default {
+  name: 'AppView',
+  components: {
+    NavBar: defineAsyncComponent(() => import('@/views/NavBar.vue'))
+    //
+    // 'RoomManager': ()=>import('@/views/RoomManager'),
+    // 'MilkEditor': ()=>import('@/views/MilkEditor'),
+  },
+}
+</script>
 
 <style>
 #app {
