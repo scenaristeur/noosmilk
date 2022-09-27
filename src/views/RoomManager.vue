@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <input v-model="roomId" placehoder="roomId" @keyup.enter="changeRoom"/>
+    <input v-model="roomId" placehoder="roomId" @keyup.enter="changeRoom" type="search"/>
     <button class="btn btn-primary btn-sm" @click="changeRoom">Open</button>
 
     <!-- <button
