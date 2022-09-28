@@ -15,6 +15,8 @@ import BootstrapVue3 from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
+import "bootswatch/dist/vapor/bootstrap.min.css";
+
 // import { MdButton, MdInput /*MdContent, MdTabs*/ } from 'vue-material/dist/components'
 // import 'vue-material/dist/vue-material.min.css'
 // import 'vue-material/dist/theme/default.css'
