@@ -1,10 +1,13 @@
 <template>
 
-  <b-navbar class="nav-bar" fixed="bottom" toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">
-      <RoomManager />
-      <!-- NavBar -->
-    </b-navbar-brand>
+  <b-navbar class="nav-bar" fixed="top" toggleable="lg" type="dark" variant="info">
+    <!-- <b-navbar-brand href="#"> -->
+    <RoomManager />
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      +
+    </button>
+    <!-- NavBar -->
+    <!-- </b-navbar-brand> -->
     <b-navbar-toggle target="nav-collapse" size="sm"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
@@ -49,6 +52,8 @@ export default {
   name: 'NavBar',
   components: {
     RoomManager: defineAsyncComponent(() => import('@/views/RoomManager.vue')),
+
+
   },
 
 
@@ -57,6 +62,6 @@ export default {
 
 <style lang="css" scoped>
 .nav-bar {
-z-index: 2;
+  z-index: 2;
 }
 </style>

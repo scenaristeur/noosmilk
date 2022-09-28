@@ -1,8 +1,8 @@
 <template>
-  <div class="container fluid">
+  <div >
     roomId : {{roomId}}
     <!-- {{ ready}} -->
-    <div ref="editor" class="editor" v-if="roomId.length > 0"></div>
+    <div ref="editor" class="editor" ></div>
     {{ user }}
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script>
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
-// import { commonmark } from '@milkdown/preset-commonmark';
+import { commonmark } from '@milkdown/preset-commonmark';
 import { collaborative, collabServiceCtx } from '@milkdown/plugin-collaborative';
 import { menu } from '@milkdown/plugin-menu';
 import { slash } from '@milkdown/plugin-slash';
@@ -20,7 +20,7 @@ import { cursor } from '@milkdown/plugin-cursor';
 import { history } from '@milkdown/plugin-history';
 import { emoji } from '@milkdown/plugin-emoji';
 import { diagram } from '@milkdown/plugin-diagram';
-import { gfm } from '@milkdown/preset-gfm';
+// import { gfm } from '@milkdown/preset-gfm';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { Doc } from 'yjs';
 import {Awareness} from 'y-protocols/awareness'
@@ -77,13 +77,13 @@ export default {
       });
     })
     .use(nord)
-    // .use(commonmark)
+    .use(commonmark)
     .use(menu)
     .use(slash)
     .use(tooltip)
     .use(cursor)
     .use(clipboard)
-    .use(gfm)
+    // .use(gfm)
     .use(collaborative)
     .use(history)
     .use(emoji)
@@ -216,13 +216,21 @@ export default {
 <style lang="css">
 .milkdown-menu {
   position:fixed;
-  top:0px;
+  top:56px;
   right:0;
   left:0;
   /* bottom: 0px; */
   z-index:1
 }
-.editor {
-  margin-bottom: 100px;
-}
+
+/* .milkdown-wsc9t6 .menu-selector-list {
+  width: 184px;
+  position: absolute;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(216, 222, 233, 1);
+  box-shadow: 0 1px 1px rgba(59, 66, 82, 0.14),0 2px 1px rgba(59, 66, 82, 0.12),0 1px 3px rgba(59, 66, 82, 0.2);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 2;
+} */
 </style>

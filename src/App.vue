@@ -5,9 +5,10 @@
 </nav> -->
 <div>
   <NavBar />
-  <div style="margin-top: 60px;margin-bottom: 60px;" class="container">
+  <div style="margin-top: 120px;" >
     <router-view/>
   </div>
+  <SideBar />
 </div>
 </template>
 
@@ -17,7 +18,8 @@ import { defineAsyncComponent } from 'vue'
 export default {
   name: 'AppView',
   components: {
-    NavBar: defineAsyncComponent(() => import('@/views/NavBar.vue'))
+    NavBar: defineAsyncComponent(() => import('@/views/NavBar.vue')),
+    SideBar: defineAsyncComponent(() => import('@/views/SideBar.vue')),
     //
     // 'RoomManager': ()=>import('@/views/RoomManager'),
     // 'MilkEditor': ()=>import('@/views/MilkEditor'),
