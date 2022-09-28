@@ -2,7 +2,7 @@
   <div class="container fluid">
     roomId : {{roomId}}
     <!-- {{ ready}} -->
-    <div ref="editor" v-if="roomId.length > 0"></div>
+    <div ref="editor" class="editor" v-if="roomId.length > 0"></div>
     {{ user }}
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
   name: 'MilkEditor',
   data(){
     return{
-      default: "# Welcome to the Noosphere \n1. Open a room\n 2. click to edit",
+      default: "### Welcome to the Noosphere \n1. Open a room\n 2. click to edit",
       rootDoc: null,
       user: null
       // ready: false
@@ -216,10 +216,13 @@ export default {
 <style lang="css">
 .milkdown-menu {
   position:fixed;
-  top:60px;
+  top:0px;
   right:0;
   left:0;
   /* bottom: 0px; */
-  z-index:1040
+  z-index:1
+}
+.editor {
+  margin-bottom: 100px;
 }
 </style>

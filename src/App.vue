@@ -5,7 +5,7 @@
 </nav> -->
 <div>
   <NavBar />
-  <div style="margin-top: 60px;" class="container">
+  <div style="margin-top: 60px;margin-bottom: 60px;" class="container">
     <router-view/>
   </div>
 </div>
