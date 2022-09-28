@@ -30,6 +30,18 @@ npm run build
 git add dist -f && git commit -m "Initial dist subtree commit"
 
 
+```
+# y-websocket
+- https://glitch.com/edit/#!/flame-long-base
 
+# y-leveldb persistance
+- add    "start": "YPERSISTENCE=./.data node ./bin/server.js", in package.json
+and dependency     "y-leveldb": "0.1.1"
+-> https://glitch.com/edit/#!/yjs-leveldb
+-> https://yjs-leveldb.glitch.me/
 
+```
+Persisting documents to "./.data"
+
+running at 'localhost' on port 3000
 ```

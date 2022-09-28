@@ -1,8 +1,9 @@
 <template>
-  <div class="">
+  <div class="container fluid">
     roomId : {{roomId}}
     <!-- {{ ready}} -->
     <div ref="editor" v-if="roomId.length > 0"></div>
+    {{ user }}
   </div>
 </template>
 
@@ -22,7 +23,7 @@ import { diagram } from '@milkdown/plugin-diagram';
 import { gfm } from '@milkdown/preset-gfm';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { Doc } from 'yjs';
-// import {Awareness} from 'y-protocols/awareness'
+import {Awareness} from 'y-protocols/awareness'
 // import { WebrtcProvider } from 'y-webrtc'
 import { WebsocketProvider } from 'y-websocket'
 // import { IndexeddbPersistence } from 'y-indexeddb'
@@ -35,6 +36,7 @@ export default {
     return{
       default: "# Welcome to the Noosphere \n1. Open a room\n 2. click to edit",
       rootDoc: null,
+      user: null
       // ready: false
     }
   },
@@ -44,30 +46,31 @@ export default {
       ctx.set(rootCtx, this.$refs.editor);
       ctx.set(defaultValueCtx, this.default);
       ctx.get(listenerCtx)
-      .beforeMount((ctx) => {
-        // before the editor mounts
-        console.log('beforeMount', ctx)
-      })
-      .mounted((ctx) => {
-        // after the editor mounts
-        console.log('mounted', ctx)
-      })
-      .updated((ctx, doc, prevDoc) => {
-        console.log('updated', ctx, doc, prevDoc)
+      // .beforeMount((ctx) => {
+      //   // before the editor mounts
+      //   console.log('beforeMount', ctx)
+      // })
+      // .mounted((ctx) => {
+      //   // after the editor mounts
+      //   console.log('mounted', ctx)
+      // })
+      .updated((ctx, /*doc, prevDoc*/) => {
+        console.log('updated', ctx)
+        //  console.log('updated', ctx, doc, prevDoc)
         // when editor state updates
       })
-      .markdownUpdated((ctx, markdown, prevMarkdown) => {
-        // when markdown updates
-        console.log('markdown updated', ctx,markdown, prevMarkdown)
-      })
-      .blur((ctx) => {
-        // when editor loses focus
-        console.log('blur', ctx)
-      })
-      .focus((ctx) => {
-        // when focus editor
-        console.log('focus', ctx)
-      })
+      // .markdownUpdated((ctx, markdown, prevMarkdown) => {
+      //   // when markdown updates
+      //   console.log('markdown updated', ctx,markdown, prevMarkdown)
+      // })
+      // .blur((ctx) => {
+      //   // when editor loses focus
+      //   console.log('blur', ctx)
+      // })
+      // .focus((ctx) => {
+      //   // when focus editor
+      //   console.log('focus', ctx)
+      // })
       .destroy((ctx) => {
         // when editor is being destroyed
         console.log('destroy', ctx)
@@ -100,9 +103,35 @@ export default {
     // console.log(this.ready)
 
 
+
+    let awareness = this.awareness =  new Awareness(this.rootDoc)
+    // store.commit('y/setAwareness', awareness)
+    awareness.on('change', ()/*changes*/ => {
+      awareness.getStates().forEach(async state => {
+        //  console.log(state)
+        if (state.user) {
+          console.log('[state.user]',await state.user)
+          // store.commit('actor/setUserById', state.user)
+        }
+      })
+      // store.commit('actor/setUsersUpdated', Date.now())
+    })
+
+
+    this.user = {
+      name: 'User_RAND_'+Date.now(),
+      color: '#'+Math.floor(Math.random()*16777215).toString(16),
+      clientID: awareness.clientID,
+      //roomId: uuidv4(),
+      rooms: {}
+    }
+
+
   },
   methods:{
     connect(){
+      let awareness = this.awareness
+      console.log('awareness clientID', awareness.clientID)
       this.ymap = this.rootDoc.getMap()
       console.log('ymap', this.ymap)
       this.roomDoc = this.ymap.get(this.roomId)
@@ -122,13 +151,16 @@ export default {
 
 
 
-      const wsProvider = new WebsocketProvider(
+      // const wsProvider =
+      new WebsocketProvider(
         // "ws://localhost:1234",
-        "wss://flame-long-base.glitch.me/",       // '<YOUR_WS_HOST>',
+        //  "wss://noosphere.glitch.me/",       // basic y-websocket
+        "wss://yjs-leveldb.glitch.me/", // with leveldb
         // "wss://yjs-websocket--1234.local-corp.webcontainer.io",
         // 'wss://demos.yjs.dev',
         this.roomId, //'milkdown', // roomId
-        this.roomDoc // Doc
+        this.roomDoc, // Doc
+        {awareness}
       );
 
 
@@ -147,10 +179,15 @@ export default {
         .disconnect()
         // bind doc and awareness
         .bindDoc(this.roomDoc)
-        .setAwareness(wsProvider.awareness)
+        .setAwareness(this.awareness)
         // connect yjs with milkdown
         .connect();
       });
+
+      this.user.roomId = this.roomId
+      this.user.rooms[this.roomId] = {}
+      this.awareness.setLocalStateField('user', this.user)
+
     }
   },
 

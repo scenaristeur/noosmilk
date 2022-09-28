@@ -3,6 +3,12 @@
     <input v-model="roomId" placehoder="roomId" @keyup.enter="changeRoom" type="search"/>
     <button class="btn btn-primary btn-sm" @click="changeRoom">Open</button>
 
+
+    <!-- <md-field>
+         <label>Choose a room</label>
+         <md-input v-model="roomId"></md-input>
+       </md-field>
+      <md-button class="md-primary" @click="changeRoom">Open</md-button> -->
     <!-- <button
     class="btn btn-primary"
     data-bs-target="#collapseTarget"
