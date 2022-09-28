@@ -34,7 +34,7 @@ export default {
   name: 'MilkEditor',
   data(){
     return{
-      default: "### Welcome to the Noosphere \n1. Open a room\n 2. click to edit",
+      default: "### Welcome to the Noosphere \n1. Choose a room\n 2. click to edit",
       rootDoc: null,
       user: null
       // ready: false

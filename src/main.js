@@ -15,7 +15,7 @@ import BootstrapVue3 from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
-import "bootswatch/dist/vapor/bootstrap.min.css";
+// import "bootswatch/dist/darkly/bootstrap.min.css";
 
 // import { MdButton, MdInput /*MdContent, MdTabs*/ } from 'vue-material/dist/components'
 // import 'vue-material/dist/vue-material.min.css'
@@ -38,12 +38,14 @@ import "bootswatch/dist/vapor/bootstrap.min.css";
 // // Import all of Bootstrap's JS
 // // import * as bootstrap from 'bootstrap'
 // import "bootstrap/dist/js/bootstrap.bundle.min.js"
+import UtilPlugin from './plugins/util-plugin';
 
 
 createApp(App)
 .use(store)
 .use(router)
 .use(BootstrapVue3)
+.use(UtilPlugin, {store: store, router: router})
 // // Make BootstrapVue available throughout your project
 // .use(BootstrapVue)
 // // Optionally install the BootstrapVue icon components plugin
